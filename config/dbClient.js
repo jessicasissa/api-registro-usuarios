@@ -1,21 +1,25 @@
-import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 
 class DatabaseClient {
+
     constructor() {
+        this.connectDatabase();
+    }
+
+    async connectDatabase() {
         const queryString = process.env.DATABASE_URL;
-        this.client = new MongoClient(queryString);
-        this.connectDB();
+        await mongoose.connect(queryString);
     } 
 
-    async connectDB() {
+    async disconnectDatabase() {
         try {
-            await this.client.connect();
-            this.db = this.client.db('registro_usuarios');
-            console.log('conectado ao servidor de base de dados');
+            await mongoose.disconnect();
+            console.log('conexão encerrada');
         } catch (e) {
-            console.log(e);
+            console.error('erro ao encerrar conexão: ', e);
         }
     }
+
 }
 
-export default new DatabaseClient;
+export default new DatabaseClient();
