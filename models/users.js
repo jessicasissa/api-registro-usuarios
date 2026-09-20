@@ -31,7 +31,7 @@ class usersModel {
     }
 
     async delete(id) {
-        return await User.findOneAndDelete(id);
+        return await User.findOneAndDelete({_id: new mongoose.Types.ObjectId(id)});
     }
 }
 
