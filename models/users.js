@@ -14,8 +14,12 @@ class usersModel {
         return await User.find();
     }
 
-    async getOne(id) {
+    async getOneById(id) {
         return await User.findById(id);
+    }
+    
+    async getOne(filter) {
+        return await User.findOne(filter);
     }
 
     async update(id, user) {
