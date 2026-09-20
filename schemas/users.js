@@ -6,17 +6,20 @@ const userSchema = new mongoose.Schema(
         "name": {
             type: String,
             trim: true,
+            minlength: 2,
+            maxlength: 50, 
             required: true
         },
         "email": {
             type: String,
+            trim: true,
             required: true
         },
         "password": {
             type: String,
             minlength: [8, "Senha precisa ter no mínimo 8 caracteres"],
             required: [true, "Senha é obrigatório"],
-            select: false,
+            trim: true
         },
         "role": {
             type: String,

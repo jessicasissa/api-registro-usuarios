@@ -28,6 +28,28 @@ class userController {
         }
     }
 
+    async login(req, res) {
+        try {
+            const { email, password } = req.body;
+            const user = await usersModel.getOne({ email });
+
+            if(!user) {
+                return res.status(400).json({ error: 'Erro ao autenticar usuário.' });
+            }
+
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+            
+            if (!isPasswordValid) {
+                return res.status(400).json({ error: 'Erro ao autenticar usuário.' });
+            }
+
+            return res.status(200).json({ message: 'Usuário autenticado!' });
+
+        } catch (e) {
+            res.status(500).json({ error: e.message });
+        }
+    }
+
     async create(req, res){
         try {
             const data = await usersModel.create(req.body);
