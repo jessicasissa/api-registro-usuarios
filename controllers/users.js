@@ -1,3 +1,4 @@
+import { generateToken } from '../helpers/autentication.js';
 import usersModel from '../models/users.js';
 import bcrypt from 'bcrypt';
 
@@ -38,12 +39,13 @@ class userController {
             }
 
             const isPasswordValid = await bcrypt.compare(password, user.password);
-            
+
             if (!isPasswordValid) {
                 return res.status(400).json({ error: 'Erro ao autenticar usuário.' });
             }
 
-            return res.status(200).json({ message: 'Usuário autenticado!' });
+            const token = generateToken(user.role);
+            return res.status(200).json({ message: 'Usuário autenticado!', token });
 
         } catch (e) {
             res.status(500).json({ error: e.message });
