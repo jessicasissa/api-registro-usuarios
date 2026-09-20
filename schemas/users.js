@@ -14,7 +14,9 @@ const userSchema = new mongoose.Schema(
         },
         "password": {
             type: String,
-            required: true
+            minlength: [8, "Senha precisa ter no mínimo 8 caracteres"],
+            required: [true, "Senha é obrigatório"],
+            select: false,
         },
         "role": {
             type: String,
