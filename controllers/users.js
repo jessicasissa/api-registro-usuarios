@@ -26,7 +26,7 @@ class userController {
         try {
             const { id } = req.params;
             const data = await usersModel.delete(id);
-            res.status(206).json(data);
+            res.status(204).json();
         } catch (e) {
             res.status(500).send(e);
         }
