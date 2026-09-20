@@ -1,31 +1,37 @@
-import { ObjectId } from "mongodb";
-import DatabaseClient from "../config/dbClient.js";
+import User from '../schemas/users.js';
+import mongoose from "mongoose";
+
+// TODO: decidir se update altera senha (e como tratar senha vazia)
+// TODO: implementar pre('save') com bcrypt + isModified
 
 class usersModel {
 
     async create(user){
-        const collectionUsers = DatabaseClient.db.collection('users');
-        return await collectionUsers.insertOne(user);
+        return await User.create(user);
     }
 
     async getAll(){
-        const collectionUsers = DatabaseClient.db.collection('users');
-        return await collectionUsers.find().toArray();
+        return await User.find();
     }
 
     async getOne(id) {
-        const collectionUsers = DatabaseClient.db.collection('users');
-        return await collectionUsers.findOne({ _id: new ObjectId(id) });
+        return await User.findById(id);
     }
 
     async update(id, user) {
-        const collectionUsers = DatabaseClient.db.collection('users');
-        return await collectionUsers.updateOne({ _id: new ObjectId(id) }, { $set: user });
+        // dessa forma roda as validações de novo ao atualizar, 
+        // findByIdAndUpdate não faz isso
+        let selectedUser = await User.findById(id);
+        selectedUser.name = user.name;
+        selectedUser.email = user.email;
+        selectedUser.password = user.password;
+        selectedUser.role = user.role;
+
+        return selectedUser.save();
     }
 
     async delete(id) {
-        const collectionUsers = DatabaseClient.db.collection('users');
-        return await collectionUsers.deleteOne({ _id: new ObjectId(id) });
+        return await User.findOneAndDelete(id);
     }
 }
 
