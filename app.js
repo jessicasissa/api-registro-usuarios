@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
-import routesUsers from './routes/users.js';
+import { publicRoute, protectedRoute } from './routes/users.js';
 import DatabaseClient from './config/dbClient.js';
 
 const app = express();
@@ -12,7 +12,8 @@ app.use(express.urlencoded({
     })
 );
 
-app.use('/users', routesUsers);
+app.use('/users', publicRoute);
+app.use('/users', protectedRoute);
 
 try{
     const PORT = process.env.PORT || 3000;

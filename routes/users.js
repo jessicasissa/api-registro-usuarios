@@ -1,14 +1,19 @@
 import express from 'express';
 
-const route = express.Router();
 import userController from '../controllers/users.js';
+import { requireRole, verifyToken } from '../helpers/autentication.js';
 
-route.post('/register', userController.register);
-route.post('/login', userController.login);
-route.post('/', userController.create);
-route.get('/', userController.getAll);
-route.get('/:id', userController.getOne);
-route.put('/:id', userController.update);
-route.delete('/:id', userController.delete);
+const publicRoute = express.Router();
+publicRoute.post('/register', userController.register);
+publicRoute.post('/login', userController.login);
 
-export default route;
+const protectedRoute = express.Router();
+protectedRoute.use(verifyToken);
+
+protectedRoute.post('/', requireRole(['admin']), userController.create);
+protectedRoute.get('/', requireRole(['admin', 'operator']), userController.getAll);
+protectedRoute.get('/:id', requireRole(['admin', 'operator', 'client']), userController.getOne);
+protectedRoute.put('/:id', requireRole(['admin', 'operator']), userController.update);
+protectedRoute.delete('/:id', requireRole(['admin']), userController.delete);
+
+export { publicRoute, protectedRoute };

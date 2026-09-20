@@ -19,11 +19,12 @@ const userSchema = new mongoose.Schema(
             type: String,
             minlength: [8, "Senha precisa ter no mínimo 8 caracteres"],
             required: [true, "Senha é obrigatório"],
-            trim: true
+            trim: true,
+            select: false
         },
         "role": {
             type: String,
-            enum: ['admin', 'worker', 'client'],
+            enum: ['admin', 'operator', 'client'],
             required: true
         }
     }, { timestamps: true }

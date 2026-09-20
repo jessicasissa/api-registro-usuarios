@@ -19,7 +19,7 @@ class usersModel {
     }
     
     async getOne(filter) {
-        return await User.findOne(filter);
+        return await User.findOne(filter).select('+password');
     }
 
     async update(id, user) {

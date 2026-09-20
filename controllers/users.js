@@ -19,7 +19,7 @@ class userController {
                 name,
                 email,
                 password: encryptedPass,
-                role
+                role: 'client'
             });
 
             res.status(201).json(data);
@@ -44,7 +44,7 @@ class userController {
                 return res.status(400).json({ error: 'Erro ao autenticar usuário.' });
             }
 
-            const token = generateToken(user.role);
+            const token = generateToken(user.id, user.role);
             return res.status(200).json({ message: 'Usuário autenticado!', token });
 
         } catch (e) {
@@ -93,6 +93,11 @@ class userController {
     async getOne(req, res){
         try {
             const { id } = req.params;
+
+            if (req.user.role === 'client' && req.user.id !== req.params.id) {
+                return res.status(403).json({ error: 'Acesso negado.' });
+            }
+
             const data = await usersModel.getOneById(id);
             res.status(200).json(data);
         } catch (e) {
