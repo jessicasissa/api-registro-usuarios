@@ -1,0 +1,23 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongodb-registro-usuarios
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=senha_forte_aqui
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - ./data/mongo:/data/db
+
+  api:
+    build: .
+    container_name: api-registro-usuarios
+    environment:
+      - PORT=5100
+      - DATABASE_URL=mongodb://admin:senha_forte_aqui@mongo:27017/registro_usuarios?authSource=admin
+      - JWT_TOKEN_SECRET=troque_por_um_secret_real
+    ports:
+      - "5100:5100"
+    depends_on:
+      - mongo
