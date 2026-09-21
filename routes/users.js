@@ -13,7 +13,7 @@ protectedRoute.use(verifyToken);
 protectedRoute.post('/', requireRole(['admin']), userController.create);
 protectedRoute.get('/', requireRole(['admin', 'operator']), userController.getAll);
 protectedRoute.get('/:id', requireRole(['admin', 'operator', 'client']), userController.getOne);
-protectedRoute.put('/:id', requireRole(['admin', 'operator']), userController.update);
+protectedRoute.put('/:id', requireRole(['admin', 'operator', 'client']), userController.update);
 protectedRoute.delete('/:id', requireRole(['admin']), userController.delete);
 
 export { publicRoute, protectedRoute };
