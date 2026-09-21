@@ -29,9 +29,9 @@ class usersModel {
         // findByIdAndUpdate não faz isso
         let selectedUser = await User.findById(id);
 
-        selectedUser.name = user.name;
-        selectedUser.email = user.email;
-        selectedUser.role = user.role;
+        if (user.name !== undefined) selectedUser.name = user.name;
+        if (user.email !== undefined) selectedUser.email = user.email;
+        if (user.role !== undefined) selectedUser.role = user.role;
         
         if (user.password && user.password.length > 0) {
             selectedUser.password = await bcrypt.hash(user.password, 10);

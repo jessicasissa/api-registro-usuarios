@@ -77,11 +77,17 @@ class userController {
                 return res.status(403).json({ error: 'Acesso negado.' });
             }
 
-            if (req.user.role !== 'admin') {
-                delete req.body.role;
+            const updateData = {
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password,
+            };
+
+            if (req.user.role === 'admin') {
+                updateData.role = req.body.role;
             }
 
-            const data = await usersModel.update(id, req.body);
+            const data = await usersModel.update(id, updateData);
             res.status(200).json(data);
         } catch (e) {
             res.status(500).json({ error: e.message });
@@ -114,8 +120,13 @@ class userController {
             if (req.user.role === 'client' && req.user.id !== req.params.id) {
                 return res.status(403).json({ error: 'Acesso negado.' });
             }
-
+            
             const data = await usersModel.getOneById(id);
+
+            if (!data) {
+                return res.status(404).json({ error: 'Usuário não encontrado.' });
+            }
+
             res.status(200).json(data);
         } catch (e) {
             res.status(500).json({ error: e.message });
