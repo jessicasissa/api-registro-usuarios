@@ -47,13 +47,7 @@ JWT_TOKEN_SECRET=troque_por_uma_chave_secreta
 
 1. Subir o banco (Docker) 
 ```bash
-docker run -d \
-  --name mongodb-registro-usuarios \
-  -p 127.0.0.1:27017:27017 \
-  -v $(pwd)/data/mongo:/data/db \
-  -e MONGO_INITDB_ROOT_USERNAME=admin \
-  -e MONGO_INITDB_ROOT_PASSWORD=senha \
-  mongo:latest
+docker run -d --name mongodb-registro-usuarios -p 127.0.0.1:27017:27017 -v ${PWD}/data/mongo:/data/db -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=senha mongo:latest
 ```
 > O Docker criará automaticamente a pasta `data/mongo` se ela não existir.
 
