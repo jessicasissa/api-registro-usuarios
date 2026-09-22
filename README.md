@@ -13,7 +13,15 @@ A documentação detalhada dos endpoints, autenticação JWT, OAuth 2.0 e análi
 - Docker
 
 # Como instalar
-1. Instalar o node e as dependências do projeto
+
+> **Pré-requisito:** Node.js 20+ (verifique com `node -v`). O projeto inclui um arquivo `.nvmrc`; se você usa `nvm`, rode `nvm use` antes de instalar as dependências.
+
+0. Selecionar a versão do node (se usar nvm) 
+```bash
+nvm use
+```
+
+1. Instalar as dependências do projeto
 ``` bash
 npm install 
 ```
@@ -47,6 +55,8 @@ docker run -d \
   -e MONGO_INITDB_ROOT_PASSWORD=senha \
   mongo:latest
 ```
+> O Docker criará automaticamente a pasta `data/mongo` se ela não existir.
+
 
 2. Popular o banco de dados digitando o comando no terminal (dentro da pasta do projeto)
 ```bash
@@ -99,4 +109,4 @@ Antes de acessar cada um dos endpoints listados com as suas credenciais, você p
 # Evidências
 - Vídeo de demonstração: [link](https://youtu.be/eaJ63HldOcM)
 
-> (!) O projeto não possui front-end :( 
+> **Nota:** esta entrega contempla apenas o back-end. A demonstração das funcionalidades é feita via vídeo, e os endpoints estão documentados em [docs/API.md](docs/API.md).
